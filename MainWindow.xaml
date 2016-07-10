@@ -61,9 +61,9 @@
                 <DataTemplate DataType="{x:Type local:Gesture}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Label Content="Name:" />
-                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Center" />
+                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Center" Margin="5,0" />
                         <Label Content="ID:" />
-                        <Label Content="{Binding ID}" />
+                        <TextBox Text="{Binding ID, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="5,0" />
                     </StackPanel>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:Segment}" >
@@ -75,7 +75,7 @@
                 <DataTemplate DataType="{x:Type local:Condition}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10">
                         <ComboBox SelectedIndex="{Binding Joint0, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={StaticResource JointType}}" Width="120" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center"/>
-                        <ComboBox SelectedIndex="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Width="70" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center">
+                        <ComboBox SelectedIndex="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Width="80" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center">
                             <Label Content="Futher"/>
                             <Label Content="Higher"/>
                             <Label Content="Right"/>

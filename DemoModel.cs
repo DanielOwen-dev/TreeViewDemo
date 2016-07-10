@@ -22,19 +22,19 @@ namespace TreeViewDemo
                 
                 string name = e.Attribute("Name").Value;
                 int ID = Convert.ToInt32(e.Attribute("ID").Value);
-                Gesture aGesture = new Gesture(name, ID);
+                Gesture aGesture = new Gesture(name, ID, Gestures);
 
                 foreach (var t in e.Elements())
                 {
                     int num = Convert.ToInt32(t.Attribute("Number").Value);
-                    Segment aSegment = new Segment(num);
+                    Segment aSegment = new Segment(num, aGesture.Segments);
                     foreach (var x in t.Elements())
                     {
                         int Type = Convert.ToInt32(x.Attribute("Type").Value);
                         int Joint0 = Convert.ToInt32(x.Attribute("Joint0").Value);
                         int Joint1 = Convert.ToInt32(x.Attribute("Joint1").Value);
                         float Number = (float)Convert.ToDouble(x.Attribute("Number").Value);
-                        Condition aCondition = new Condition(Type, Joint0, Joint1, Number);
+                        Condition aCondition = new Condition(Type, Joint0, Joint1, Number, aSegment.Conditions);
                         aSegment.Conditions.Add(aCondition);
                     }
                     aGesture.Segments.Add(aSegment);

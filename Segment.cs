@@ -5,13 +5,16 @@ namespace TreeViewDemo
 {
     public class Segment : INotifyPropertyChanged
     {
-        public Segment(int aNumber)
+        public Segment(int aNumber, ObservableCollection<Segment> p)
         {
             Number = aNumber;
+            parent = p;
         }
 
         public int Number { get { return _Number; } set { if (_Number == value) return; _Number = value; OnPropertyChanged(nameof(Number)); } }
         private int _Number;
+
+        public ObservableCollection<Segment> parent;
 
         public ObservableCollection<Condition> Conditions { get; } = new ObservableCollection<Condition>();
 

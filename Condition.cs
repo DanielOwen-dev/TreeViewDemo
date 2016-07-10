@@ -1,16 +1,20 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace TreeViewDemo
 {
     public class Condition : INotifyPropertyChanged
     {
-        public Condition(int aType, int aJoint0, int aJoint1, float aNumber)
+        public Condition(int aType, int aJoint0, int aJoint1, float aNumber, ObservableCollection<Condition> p)
         {
             Type = aType;
             Joint0 = aJoint0;
             Joint1 = aJoint1;
             Number = aNumber;
+            parent = p;
         }
+
+        public ObservableCollection<Condition> parent;
 
         public int Type { get { return _Type; } set { if (_Type == value) return; _Type = value; OnPropertyChanged(nameof(Type)); } }
         private int _Type;

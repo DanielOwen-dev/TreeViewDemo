@@ -5,10 +5,11 @@ namespace TreeViewDemo
 {
     public class Gesture : INotifyPropertyChanged
     {
-        public Gesture( string aName, int aID )
+        public Gesture( string aName, int aID , ObservableCollection<Gesture> p)
         {
             Name = aName;
             ID = aID;
+            parent = p;
         }
 
         public int NumberOfSegments()
@@ -26,6 +27,8 @@ namespace TreeViewDemo
 
         public int ID { get { return _ID; } set { if (_ID == value) return; _ID = value; OnPropertyChanged(nameof(ID)); } }
         private int _ID;
+
+        public ObservableCollection<Gesture> parent;
 
         public ObservableCollection<Segment> Segments { get; } = new ObservableCollection<Segment>();
 

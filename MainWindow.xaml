@@ -1,30 +1,44 @@
-﻿<Window x:Class="TreeViewDemo.MainWindow"
+﻿<controls:MetroWindow 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TreeViewDemo"
+        xmlns:Kinect="clr-namespace:Microsoft.Kinect;assembly=Microsoft.Kinect"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        WindowStartupLocation="CenterScreen"
+        x:Class="TreeViewDemo.MainWindow"
         mc:Ignorable="d"
-        Title="TreeView Demo" Height="350" Width="525">
+        Title="Gesture setting" Height="350" Width="750">
     <Window.Resources>
+        <ObjectDataProvider x:Key="JointType" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Kinect:JointType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
-        <TreeView ItemsSource="{Binding Gestures}" Grid.Column="0" x:Name="tvwDatas">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TreeView ItemsSource="{Binding Gestures}" Grid.Column="0" Grid.Row="0" x:Name="tvwDatas" >
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:Gesture}" ItemsSource="{Binding Segments}">
+                <HierarchicalDataTemplate DataType="{x:Type local:Gesture}" ItemsSource="{Binding Segments}" >
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Gesture:" />
-                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="Gesture: " />
+                        <TextBlock Text="{Binding Name}"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type local:Segment}" ItemsSource="{Binding Conditions}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="SegmentNumber" />
+                        <TextBlock Text="SegmentNumber: " />
                         <TextBlock Text="{Binding Number}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
@@ -35,80 +49,43 @@
                 </DataTemplate>
             </TreeView.Resources>
         </TreeView>
+        <StackPanel VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <Button Content="AddGestrue" Click="Button_Click_1" VerticalAlignment="Center" Margin="5,0"/>
+            <Button Content="Add" Click="Button_Click_3" VerticalAlignment="Center" Margin="5,0"/>
+            <Button Content="Delete" Click="Button_Click_2" VerticalAlignment="Center" Margin="5,0"/>
+            <Button Content="save" Click="Button_Click" VerticalAlignment="Center" Margin="5,0"/>
+        </StackPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3" />
-        <ContentControl Grid.Column="2" Content="{Binding SelectedItem,ElementName=tvwDatas}">
+        <ContentControl Grid.Column="2" Content="{Binding SelectedItem, ElementName=tvwDatas}">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type local:Gesture}">
-                    <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Label Content="Name:" />
-                        <TextBox Text="{Binding Name,UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Center" />
                         <Label Content="ID:" />
                         <Label Content="{Binding ID}" />
-                        <Button Content="save" Click="Button_Click"/>
                     </StackPanel>
                 </DataTemplate>
-                <DataTemplate DataType="{x:Type local:Segment}">
-                    <StackPanel>
-                        <Label Content="Number:" />
-                        <TextBox Text="{Binding Number,UpdateSourceTrigger=PropertyChanged}" />
+                <DataTemplate DataType="{x:Type local:Segment}" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Number:" VerticalAlignment="Center" />
+                        <TextBox Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}" Width="50" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:Condition}">
-                    <StackPanel>
-                        <ComboBox SelectedIndex="{Binding Joint0,UpdateSourceTrigger=PropertyChanged}">
-                            <Label>HipCenter</Label>
-                            <Label>Spine</Label>
-                            <Label>ShoulderCenter</Label>
-                            <Label>Head</Label>
-                            <Label>ShoulderLeft</Label>
-                            <Label>ElbowLeft</Label>
-                            <Label>WristLeft</Label>
-                            <Label>HandLeft</Label>
-                            <Label>ShoulderRight</Label>
-                            <Label>ElbowRight</Label>
-                            <Label>WristRight</Label>
-                            <Label>HandRight</Label>
-                            <Label>HipLeft</Label>
-                            <Label>KneeLeft</Label>
-                            <Label>AnkleLeft</Label>
-                            <Label>FootLeft</Label>
-                            <Label>HipRight</Label>
-                            <Label>KneeRight</Label>
-                            <Label>AnkleRight</Label>
-                            <Label>FootRight</Label>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,10">
+                        <ComboBox SelectedIndex="{Binding Joint0, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={StaticResource JointType}}" Width="120" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center"/>
+                        <ComboBox SelectedIndex="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Width="70" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center">
+                            <Label Content="Futher"/>
+                            <Label Content="Higher"/>
+                            <Label Content="Right"/>
                         </ComboBox>
-                        <ComboBox SelectedIndex="{Binding Type,UpdateSourceTrigger=PropertyChanged}">
-                            <Label>Futher</Label>
-                            <Label>Higher</Label>
-                            <Label>Right</Label>
-                        </ComboBox>
-                        <ComboBox SelectedIndex="{Binding Joint1,UpdateSourceTrigger=PropertyChanged}">
-                            <Label>HipCenter</Label>
-                            <Label>Spine</Label>
-                            <Label>ShoulderCenter</Label>
-                            <Label>Head</Label>
-                            <Label>ShoulderLeft</Label>
-                            <Label>ElbowLeft</Label>
-                            <Label>WristLeft</Label>
-                            <Label>HandLeft</Label>
-                            <Label>ShoulderRight</Label>
-                            <Label>ElbowRight</Label>
-                            <Label>WristRight</Label>
-                            <Label>HandRight</Label>
-                            <Label>HipLeft</Label>
-                            <Label>KneeLeft</Label>
-                            <Label>AnkleLeft</Label>
-                            <Label>FootLeft</Label>
-                            <Label>HipRight</Label>
-                            <Label>KneeRight</Label>
-                            <Label>AnkleRight</Label>
-                            <Label>FootRight</Label>
-                        </ComboBox>
-                        <Label Content="Number:" />
-                        <TextBox Text="{Binding Number,UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox SelectedIndex="{Binding Joint1, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={StaticResource JointType}}" Width="120" HorizontalAlignment="Left" Margin="5,0" VerticalAlignment="Center"/>
+                        <Label Content="Number:" Width="70" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0"/>
+                        <TextBox Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0"/>
                     </StackPanel>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>
-</Window>
+</controls:MetroWindow>
